@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "minimal-dual-core-usb"
+		},
+		{
+			"path": "minimal-usb-protocol"
+		},
+		{
+			"path": "minimal-usb-server"
+		}
+	]
+}
