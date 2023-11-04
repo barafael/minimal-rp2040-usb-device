@@ -4,10 +4,13 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-defmt = "0.3"
-heapless = { version = "0.7", features = ["defmt-impl"] }
+heapless = { version = "0.7" }
 postcard = "1"
 snafu = { version = "0.7.5", features = [
     "rust_1_61",
 ], default_features = false }
 serde = { version = "1", default-features = false }
+
+[target.'cfg(target_os = "none")'.dependencies]
+defmt = { version = "0.3" }
+heapless = { version = "0.7", features = ["defmt-impl"] }
