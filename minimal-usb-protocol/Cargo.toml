@@ -1,0 +1,13 @@
+[package]
+name = "minimal-usb-protocol"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+defmt = "0.3"
+heapless = { version = "0.7", features = ["defmt-impl"] }
+postcard = "1"
+snafu = { version = "0.7.5", features = [
+    "rust_1_61",
+], default_features = false }
+serde = { version = "1", default-features = false }
