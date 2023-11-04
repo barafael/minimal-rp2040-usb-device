@@ -1,6 +1,5 @@
 use std::str::from_utf8;
 
-use anyhow::Context;
 use arguments::{Arguments, Command};
 use bytes::Bytes;
 use clap::Parser;
