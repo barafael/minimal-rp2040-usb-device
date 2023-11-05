@@ -29,13 +29,18 @@ async fn main() -> anyhow::Result<()> {
             println!("{info}");
         }
         Command::Connect { tty } => {
-            let mut port = tokio_serial::new(&tty, 115_200).open_native_async()?;
+            cfg_if::cfg_if! {
+                if #[cfg(unix)] {
+                    use anyhow::Context;
+                    let mut port = tokio_serial::new(&tty, 115_200).open_native_async()?;
+                    port.set_exclusive(false)
+                        .context("Unable to set serial port exclusive to false")?;
+                } else {
+                    let port = tokio_serial::new(&tty, 115_200).open_native_async()?;
+                }
+            };
 
             println!("Connection established on '{tty}'.");
-
-            #[cfg(unix)]
-            port.set_exclusive(false)
-                .context("Unable to set serial port exclusive to false")?;
 
             let port = BytesCodec::new().framed(port);
             let (mut writer, mut reader) = port.split::<Bytes>();
