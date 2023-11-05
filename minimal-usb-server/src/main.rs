@@ -42,8 +42,8 @@ async fn main() -> anyhow::Result<()> {
 
             println!("Connection established on '{tty}'.");
 
-            let port = BytesCodec::new().framed(port);
-            let (mut writer, mut reader) = port.split::<Bytes>();
+            let stream = BytesCodec::new().framed(port);
+            let (mut writer, mut reader) = stream.split::<Bytes>();
 
             let (tx, mut rx) = mpsc::channel::<HostToSensor>(32);
 
