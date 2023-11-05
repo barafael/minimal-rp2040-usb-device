@@ -11,7 +11,7 @@ use embassy_rp::{
     i2c::{self, I2c},
     multicore::{spawn_core1, Stack},
     peripherals::{I2C0, PIN_25, PIN_4, PIN_5, USB},
-    usb::{self, InterruptHandler},
+    usb::{self},
     watchdog::Watchdog,
 };
 use embassy_sync::{blocking_mutex::raw::CriticalSectionRawMutex, channel::Channel};
@@ -66,7 +66,7 @@ static EXECUTOR1: StaticCell<Executor> = StaticCell::new();
 // Bind interrupts to the handlers inside embassy.
 bind_interrupts!(struct Irqs {
     I2C0_IRQ => i2c::InterruptHandler<I2C0>;
-    USBCTRL_IRQ => InterruptHandler<USB>;
+    USBCTRL_IRQ => usb::InterruptHandler<USB>;
 });
 
 #[cortex_m_rt::entry]
