@@ -3,6 +3,7 @@
 #![feature(type_alias_impl_trait)]
 
 use defmt::info;
+use embassy_embedded_hal::shared_bus::asynch::i2c::I2cDevice;
 use embassy_executor::Executor;
 use embassy_rp::{
     bind_interrupts,
@@ -14,7 +15,11 @@ use embassy_rp::{
     usb::{self},
     watchdog::Watchdog,
 };
-use embassy_sync::{blocking_mutex::raw::CriticalSectionRawMutex, channel::Channel};
+use embassy_sync::{
+    blocking_mutex::raw::{CriticalSectionRawMutex, ThreadModeRawMutex},
+    channel::Channel,
+    mutex::Mutex,
+};
 use embassy_time::Timer;
 use embassy_usb::{class::cdc_acm::CdcAcmClass, UsbDevice};
 use embedded_graphics::{
@@ -88,8 +93,16 @@ fn main() -> ! {
 
     let led = Output::new(peripherals.PIN_25, Level::Low);
 
+    static I2C_BUS: StaticCell<Mutex<ThreadModeRawMutex, I2c<I2C0, i2c::Async>>> =
+        StaticCell::new();
     let i2c0_bus = i2c::I2c::new_async(peripherals.I2C0, i2c0_scl, i2c0_sda, Irqs, i2c0_config);
-    let display_interface = ssd1306::I2CDisplayInterface::new(i2c0_bus);
+
+    let bus = Mutex::<ThreadModeRawMutex, _>::new(i2c0_bus);
+    let bus = I2C_BUS.init(bus);
+
+    let dev1 = I2cDevice::new(bus);
+
+    let display_interface = ssd1306::I2CDisplayInterface::new(dev1);
     let display = Ssd1306::new(
         display_interface,
         DisplaySize128x64,
