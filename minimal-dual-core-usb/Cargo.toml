@@ -42,8 +42,6 @@ embassy-futures = { version = "0.1.0", git = "https://github.com/embassy-rs/emba
 defmt = "0.3"
 defmt-rtt = "0.4"
 
-usbd-hid = { version = "0.6" }
-
 minimal-usb-protocol = { path = "../minimal-usb-protocol" }
 
 cortex-m = { version = "0.7", features = ["inline-asm"] }

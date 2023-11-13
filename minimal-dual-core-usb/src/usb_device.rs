@@ -50,7 +50,7 @@ pub fn initialize(
     let device_descriptor_buf = DEVICE_DESCRIPTOR.init([0; 256]);
     let config_descriptor_buf = CONFIG_DESCRIPTOR.init([0; 256]);
     let bos_descriptor_buf = BOS_DESCRIPTOR.init([0; 256]);
-    let msos_descriptor_buf = CONTROL_BUF.init([0; 128]);
+    let control_buf = CONTROL_BUF.init([0; 128]);
 
     // Create embassy-usb DeviceBuilder using the driver and config.
     let mut builder = Builder::new(
@@ -59,7 +59,8 @@ pub fn initialize(
         device_descriptor_buf,
         config_descriptor_buf,
         bos_descriptor_buf,
-        msos_descriptor_buf,
+        &mut [],
+        control_buf,
     );
 
     // It needs some buffers for building the descriptors.
