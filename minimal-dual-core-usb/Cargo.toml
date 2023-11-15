@@ -1,9 +1,12 @@
+cargo-features = ["per-package-target"]
+
 [package]
 edition = "2021"
 name = "dual-core-usb"
 authors = ["Rafael Bachmann <rafael.bachmann.93@gmail.com>"]
 version = "0.1.0"
 license = "MIT OR Apache-2.0"
+forced-target = "thumbv6m-none-eabi"
 
 [dependencies]
 embassy-usb = { version = "0.1.0", git = "https://github.com/embassy-rs/embassy.git", features = [
@@ -54,6 +57,3 @@ postcard = { version = "1", features = ["use-defmt"] }
 serde = { version = "1", default-features = false }
 ssd1306 = "0.8"
 static_cell = { version = "1.2", features = ["nightly"] }
-
-[profile.release]
-debug = 2

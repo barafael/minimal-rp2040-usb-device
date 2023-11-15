@@ -1,0 +1,15 @@
+[workspace]
+
+resolver = "2"
+
+members = [
+    "minimal-usb-server",
+    "minimal-usb-protocol",
+    "minimal-dual-core-usb",
+]
+
+[patch.crates-io]
+mio-serial = { git = "https://github.com/barafael/mio-serial.git" }
+
+[profile.release]
+debug = 2

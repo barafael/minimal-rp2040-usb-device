@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "minimal-usb-server"
+		},
+		{
+			"path": "."
 		}
 	]
 }
